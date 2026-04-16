@@ -44,7 +44,7 @@ export default {
       return json({ ok: true });
     }
 
-    if (request.method !== 'POST' || url.pathname !== '/webhook/webinarjam') {
+    if (request.method !== 'POST') {
       return new Response('Not Found', { status: 404 });
     }
 
