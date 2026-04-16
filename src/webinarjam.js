@@ -5,44 +5,83 @@ function splitName(full) {
   return { firstName: parts[0], lastName: parts.slice(1).join(' ') };
 }
 
+function pickDeep(obj, keys) {
+  if (!obj || typeof obj !== 'object') return undefined;
+  for (const key of keys) {
+    if (obj[key] !== undefined && obj[key] !== null && obj[key] !== '') return obj[key];
+  }
+  for (const k of Object.keys(obj)) {
+    if (obj[k] && typeof obj[k] === 'object' && !Array.isArray(obj[k])) {
+      const hit = pickDeep(obj[k], keys);
+      if (hit !== undefined) return hit;
+    }
+  }
+  return undefined;
+}
+
 export function parseWebinarJamPayload(payload) {
   if (!payload || typeof payload !== 'object') {
     throw new Error('Empty or invalid webhook payload');
   }
 
-  const email = payload.email || payload.user_email || payload.registrant_email;
-  if (!email) throw new Error('Payload is missing an email field');
+  const email = pickDeep(payload, [
+    'email',
+    'Email',
+    'user_email',
+    'registrant_email',
+    'subscriber_email',
+    'attendee_email',
+    'lead_email',
+  ]);
 
-  let firstName = payload.first_name || payload.firstname || '';
-  let lastName = payload.last_name || payload.lastname || '';
-  if (!firstName && !lastName) {
-    ({ firstName, lastName } = splitName(payload.name || payload.full_name));
+  if (!email) {
+    const keys = Object.keys(payload).slice(0, 30).join(',');
+    throw new Error(`Payload is missing an email field. Top-level keys: ${keys}`);
   }
+
+  let firstName =
+    pickDeep(payload, ['first_name', 'firstname', 'FirstName', 'first']) || '';
+  let lastName =
+    pickDeep(payload, ['last_name', 'lastname', 'LastName', 'last']) || '';
+  if (!firstName && !lastName) {
+    const full = pickDeep(payload, ['name', 'full_name', 'fullname', 'Name']);
+    ({ firstName, lastName } = splitName(full));
+  }
+
+  const phone = pickDeep(payload, [
+    'phone',
+    'phone_number',
+    'Phone',
+    'mobile',
+    'telephone',
+  ]);
+  const webinarId = pickDeep(payload, ['webinar_id', 'webinarId', 'webinar']);
+  const webinarName = pickDeep(payload, [
+    'webinar_name',
+    'webinarName',
+    'webinar_title',
+  ]);
+  const schedule = pickDeep(payload, [
+    'schedule',
+    'webinar_schedule',
+    'scheduled_at',
+    'date',
+    'datetime',
+  ]);
+  const timezone = pickDeep(payload, ['timezone', 'time_zone', 'tz']);
 
   const customFields = [];
-  if (payload.phone || payload.phone_number) {
-    customFields.push({
-      name: 'Phone',
-      value: String(payload.phone || payload.phone_number),
-    });
-  }
-  if (payload.webinar_id) {
-    customFields.push({ name: 'Webinar ID', value: String(payload.webinar_id) });
-  }
-  if (payload.webinar_name) {
-    customFields.push({ name: 'Webinar', value: String(payload.webinar_name) });
-  }
-  if (payload.schedule) {
-    customFields.push({ name: 'Webinar Schedule', value: String(payload.schedule) });
-  }
-  if (payload.timezone) {
-    customFields.push({ name: 'Timezone', value: String(payload.timezone) });
-  }
+  if (phone) customFields.push({ name: 'Phone', value: String(phone) });
+  if (webinarId) customFields.push({ name: 'Webinar ID', value: String(webinarId) });
+  if (webinarName) customFields.push({ name: 'Webinar', value: String(webinarName) });
+  if (schedule)
+    customFields.push({ name: 'Webinar Schedule', value: String(schedule) });
+  if (timezone) customFields.push({ name: 'Timezone', value: String(timezone) });
 
   return {
     email: String(email).trim().toLowerCase(),
-    firstName,
-    lastName,
+    firstName: String(firstName),
+    lastName: String(lastName),
     customFields,
   };
 }

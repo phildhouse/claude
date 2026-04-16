@@ -63,6 +63,9 @@ export default {
     try {
       registrant = parseWebinarJamPayload(payload);
     } catch (err) {
+      console.log(
+        `parse-fail msg=${err.message} payload=${JSON.stringify(payload).slice(0, 2000)}`,
+      );
       return json({ error: err.message }, 400);
     }
 
