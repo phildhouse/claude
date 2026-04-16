@@ -1,0 +1,15 @@
+name = "webinarjam-beehiiv-bridge"
+main = "src/worker.js"
+compatibility_date = "2025-09-01"
+
+# Non-secret config. Secrets (API key, webhook secret) werden via `wrangler secret put` gesetzt.
+[vars]
+BEEHIIV_PUBLICATION_ID = "REPLACE_ME_pub_xxxxxxxx"
+BEEHIIV_AUTOMATION_ID  = "REPLACE_ME_aut_xxxxxxxx"
+BEEHIIV_UTM_SOURCE     = "webinarjam"
+BEEHIIV_SEND_WELCOME_EMAIL = "false"
+BEEHIIV_REACTIVATE_EXISTING = "true"
+
+# Observability: Logs in Cloudflare Dashboard ansehen (kostenlos)
+[observability]
+enabled = true
