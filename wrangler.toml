@@ -4,8 +4,8 @@ compatibility_date = "2025-09-01"
 
 # Non-secret config. Secrets (API key, webhook secret) werden via `wrangler secret put` gesetzt.
 [vars]
-BEEHIIV_PUBLICATION_ID = "REPLACE_ME_pub_xxxxxxxx"
-BEEHIIV_AUTOMATION_ID  = "REPLACE_ME_aut_xxxxxxxx"
+BEEHIIV_PUBLICATION_ID = "pub_d19044b5-5ee9-421e-b3c2-ab072b4450be"
+BEEHIIV_AUTOMATION_ID  = "aut_5002f3a8-5462-4387-9fe1-18f9019e6475"
 BEEHIIV_UTM_SOURCE     = "webinarjam"
 BEEHIIV_SEND_WELCOME_EMAIL = "false"
 BEEHIIV_REACTIVATE_EXISTING = "true"
