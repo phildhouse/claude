@@ -36,6 +36,30 @@ function json(data, status = 200) {
   });
 }
 
+async function forwardToGoogleSheet(url, payload, registrant) {
+  if (!url) return;
+  try {
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({
+        received_at: new Date().toISOString(),
+        email: registrant.email,
+        first_name: registrant.firstName,
+        last_name: registrant.lastName,
+        custom_fields: registrant.customFields,
+        raw: payload,
+      }),
+      redirect: 'follow',
+    });
+    if (!res.ok) {
+      console.log(`sheet-error status=${res.status}`);
+    }
+  } catch (err) {
+    console.log(`sheet-error ${err.message}`);
+  }
+}
+
 export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
@@ -57,6 +81,10 @@ export default {
       payload = await readBody(request);
     } catch {
       return json({ error: 'invalid body' }, 400);
+    }
+
+    if (env.DEBUG_LOG_PAYLOAD === 'true') {
+      console.log(`payload ${JSON.stringify(payload).slice(0, 2000)}`);
     }
 
     let registrant;
@@ -86,6 +114,7 @@ export default {
           `beehiiv-error ${registrant.email} status=${err.status} msg=${err.message}`,
         );
       }
+      await forwardToGoogleSheet(env.GOOGLE_SHEET_WEBHOOK_URL, payload, registrant);
     })();
 
     ctx.waitUntil(work);

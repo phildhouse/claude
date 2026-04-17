@@ -9,6 +9,7 @@ BEEHIIV_AUTOMATION_ID  = "aut_5002f3a8-5462-4387-9fe1-18f9019e6475"
 BEEHIIV_UTM_SOURCE     = "webinarjam"
 BEEHIIV_SEND_WELCOME_EMAIL = "false"
 BEEHIIV_REACTIVATE_EXISTING = "true"
+DEBUG_LOG_PAYLOAD = "true"
 
 # Observability: Logs in Cloudflare Dashboard ansehen (kostenlos)
 [observability]
