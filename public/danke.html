@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Deine Anmeldung ist bestätigt!</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --green-deep:#061a10;--green-rich:#0b2a1a;--green-mid:#0e3620;
+  --gold:#c9a84c;--gold2:#e8c96a;--gold3:#a07830;
+  --gold-border:rgba(201,168,76,0.18);
+  --text:#f5f0e8;--text2:#c4baa8;--text3:#8a8070;
+  --font-d:'Cormorant Garamond',Georgia,serif;
+  --font-b:'Inter',-apple-system,sans-serif;
+}
+html{-webkit-font-smoothing:antialiased;scroll-behavior:smooth;}
+body{
+  font-family:var(--font-b);color:var(--text);min-height:100vh;overflow-x:hidden;
+  background:
+    radial-gradient(ellipse 70% 55% at 50% 30%,rgba(18,60,35,0.7) 0%,transparent 65%),
+    radial-gradient(ellipse 100% 80% at 50% 100%,rgba(4,14,8,0.9) 0%,transparent 50%),
+    radial-gradient(ellipse 80% 70% at 0% 50%,rgba(3,12,7,0.8) 0%,transparent 50%),
+    radial-gradient(ellipse 80% 70% at 100% 50%,rgba(3,12,7,0.8) 0%,transparent 50%),
+    linear-gradient(180deg,#082214 0%,#0e3620 35%,#0b2a1a 65%,#061a10 100%);
+}
+body::before{content:'';position:fixed;inset:0;background:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");pointer-events:none;z-index:0;}
+
+#confetti{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999;}
+
+.page{position:relative;z-index:1;max-width:680px;margin:0 auto;padding:60px 24px 80px;}
+
+.ty-hero{text-align:center;margin-bottom:48px;}
+.ty-emoji{font-size:56px;margin-bottom:16px;display:block;animation:emojiBounce 1s .5s ease both;}
+@keyframes emojiBounce{0%{opacity:0;transform:scale(0) rotate(-20deg)}60%{transform:scale(1.2) rotate(5deg)}100%{opacity:1;transform:scale(1) rotate(0)}}
+.ty-badge{display:inline-flex;align-items:center;gap:8px;padding:8px 20px;background:rgba(201,168,76,0.1);border:1px solid var(--gold-border);border-radius:100px;font-size:13px;font-weight:600;color:var(--gold);letter-spacing:1px;text-transform:uppercase;margin-bottom:20px;animation:fadeUp .7s .3s ease both;}
+.ty-badge .check{font-size:16px;}
+.ty-title{font-family:var(--font-d);font-size:clamp(36px,8vw,56px);font-weight:400;line-height:1.05;margin-bottom:12px;animation:fadeUp .7s .4s ease both;}
+.ty-title em{color:var(--gold);font-style:italic;font-weight:500;}
+.ty-shimmer{width:60%;height:2px;margin:0 auto 24px;background:linear-gradient(90deg,transparent,var(--gold3),var(--gold),var(--gold2),var(--gold),var(--gold3),transparent);background-size:200% 100%;border-radius:1px;animation:fadeUp .7s .45s ease both,shimmer 3s ease-in-out infinite;box-shadow:0 0 15px rgba(201,168,76,0.25);}
+@keyframes shimmer{0%{background-position:-200% center}100%{background-position:200% center}}
+.ty-sub{font-size:17px;color:var(--text2);line-height:1.6;animation:fadeUp .7s .5s ease both;}
+
+.ty-email{background:linear-gradient(135deg,rgba(14,54,32,0.5),rgba(11,42,26,0.3));border:1px solid var(--gold-border);border-radius:16px;padding:24px;text-align:center;margin-bottom:40px;animation:fadeUp .7s .6s ease both;}
+.ty-email-icon{font-size:32px;margin-bottom:10px;display:block;}
+.ty-email-title{font-family:var(--font-d);font-size:22px;font-weight:500;margin-bottom:8px;}
+.ty-email-desc{font-size:14px;color:var(--text2);line-height:1.6;}
+.ty-email-desc strong{color:var(--text);font-weight:600;}
+
+.ty-video{margin-bottom:40px;border-radius:14px;overflow:hidden;border:1px solid var(--gold-border);animation:fadeUp .7s .65s ease both;}
+.ty-video-inner{width:100%;aspect-ratio:16/9;background:rgba(14,54,32,0.5);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;}
+.ty-video-play{width:60px;height:60px;background:linear-gradient(135deg,var(--gold3),var(--gold));border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 4px 28px rgba(201,168,76,0.3);}
+.ty-video-label{font-family:var(--font-d);font-size:15px;font-style:italic;color:var(--text2);}
+
+.ty-section{margin-bottom:40px;animation:fadeUp .7s .7s ease both;}
+.ty-section-num{display:flex;align-items:center;gap:12px;margin-bottom:16px;}
+.ty-section-num span{font-family:var(--font-b);font-size:13px;font-weight:700;color:var(--gold);background:rgba(201,168,76,0.1);border:1px solid var(--gold-border);width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;}
+.ty-section-num h3{font-family:var(--font-d);font-size:24px;font-weight:500;color:var(--text);}
+.ty-section-desc{font-size:15px;color:var(--text2);line-height:1.65;margin-bottom:20px;}
+.ty-section-desc strong{color:var(--text);font-weight:600;}
+
+.ty-cal-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;}
+.ty-cal-btn{display:flex;flex-direction:column;align-items:center;gap:8px;padding:18px 12px;background:linear-gradient(135deg,rgba(14,54,32,0.5),rgba(11,42,26,0.3));border:1px solid var(--gold-border);border-radius:12px;text-decoration:none;color:var(--text);transition:border-color .3s,transform .2s;cursor:pointer;}
+.ty-cal-btn:hover{border-color:rgba(201,168,76,0.4);transform:translateY(-2px);}
+.ty-cal-btn svg{width:28px;height:28px;color:var(--gold);}
+.ty-cal-btn span{font-size:12px;font-weight:500;color:var(--text2);}
+.ty-event-info{margin-bottom:16px;padding:16px;background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.1);border-radius:10px;font-size:14px;color:var(--text2);line-height:1.6;}
+.ty-event-info strong{color:var(--gold);font-weight:600;}
+
+.ty-share{animation:fadeUp .7s .75s ease both;}
+.ty-share-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;}
+.ty-share-btn{display:flex;align-items:center;justify-content:center;gap:10px;padding:16px;border-radius:12px;text-decoration:none;font-size:15px;font-weight:600;transition:transform .2s,box-shadow .2s;cursor:pointer;}
+.ty-share-btn:hover{transform:translateY(-2px);}
+.ty-share-btn.whatsapp{background:#25D366;color:#fff;}
+.ty-share-btn.facebook{background:#1877F2;color:#fff;}
+.ty-share-btn svg{width:20px;height:20px;flex-shrink:0;}
+
+.ty-link-box{padding:14px 18px;background:rgba(201,168,76,0.06);border:1px solid rgba(201,168,76,0.12);border-radius:10px;display:flex;align-items:center;gap:12px;}
+.ty-link-box input{flex:1;background:none;border:none;color:var(--text);font-family:var(--font-b);font-size:13px;outline:none;min-width:0;}
+.ty-link-box button{background:linear-gradient(135deg,var(--gold3),var(--gold));border:none;border-radius:8px;padding:8px 16px;font-family:var(--font-b);font-size:12px;font-weight:600;color:var(--green-deep);cursor:pointer;white-space:nowrap;transition:filter .2s;}
+.ty-link-box button:hover{filter:brightness(1.1);}
+
+.ty-footer{margin-top:60px;padding-top:24px;border-top:1px solid rgba(201,168,76,0.08);text-align:center;font-size:12px;color:var(--text3);}
+.ty-footer a{color:var(--text3);text-decoration:underline;text-underline-offset:2px;}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+
+@media(max-width:500px){
+  .page{padding:40px 16px 60px;}
+  .ty-cal-grid{grid-template-columns:1fr;}
+  .ty-share-grid{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<canvas id="confetti"></canvas>
+
+<div class="page">
+
+  <!-- HERO -->
+  <div class="ty-hero">
+    <span class="ty-emoji">🎉</span>
+    <div class="ty-badge"><span class="check">✓</span> Bestätigt</div>
+    <h1 class="ty-title">Deine Anmeldung ist<br><em>bestätigt!</em></h1>
+    <div class="ty-shimmer"></div>
+    <p class="ty-sub">Herzlichen Glückwunsch — du bist offiziell dabei beim Live-Event <strong style="color:var(--gold);font-weight:600;">"Die Füllefrequenz"</strong>.</p>
+  </div>
+
+  <!-- EMAIL NOTICE -->
+  <div class="ty-email">
+    <span class="ty-email-icon">📩</span>
+    <h3 class="ty-email-title">Schau in deine E-Mails</h3>
+    <p class="ty-email-desc">Dort erhältst du dein <strong>kostenloses Ticket</strong> mit deinem persönlichen Zugangslink zum Live-Raum. Schaue auch in deinen Spam-Ordner oder unter Werbung nach.</p>
+  </div>
+
+  <!-- STEP 1: KALENDER -->
+  <div class="ty-section">
+    <div class="ty-section-num">
+      <span>1</span>
+      <h3>Trag dir den Termin ein</h3>
+    </div>
+    <p class="ty-section-desc">Blocke dir die Zeit — als Verabredung mit dir selbst. Das Live-Event funktioniert nur, wenn du wirklich <strong>live dabei</strong> bist, da es keine Aufzeichnung gibt.</p>
+    <div class="ty-event-info" id="eventInfo">
+      <strong>🗓 Wird geladen…</strong><br>
+      Dauer: ca. 90 Minuten · Online · Kostenlos
+    </div>
+    <div class="ty-cal-grid">
+      <a class="ty-cal-btn" id="googleCalBtn" href="#" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/><path d="M8 14h.01M12 14h.01M16 14h.01M8 18h.01M12 18h.01"/></svg>
+        <span>Google Kalender</span>
+      </a>
+      <a class="ty-cal-btn" id="outlookCalBtn" href="#" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/><circle cx="12" cy="15" r="2"/></svg>
+        <span>Outlook</span>
+      </a>
+      <a class="ty-cal-btn" id="appleCalBtn" href="#" onclick="downloadICS(event)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/><path d="M12 14v4M10 16h4"/></svg>
+        <span>Apple Kalender</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- STEP 2: INVITE -->
+  <div class="ty-section ty-share">
+    <div class="ty-section-num">
+      <span>2</span>
+      <h3>Teile das Event mit deinen Freunden</h3>
+    </div>
+    <p class="ty-section-desc">Transformation ist stärker, wenn man sie teilt. Lade jemanden ein, dem du dieses Erlebnis gönnen würdest. Die Teilnahme ist komplett <strong>kostenlos.</strong></p>
+    <div class="ty-share-grid">
+      <a class="ty-share-btn whatsapp" href="https://api.whatsapp.com/send?text=Hey%2C%20ich%20nehme%20an%20einem%20kostenlosen%20Live-Event%20mit%20Elisha%20Crowd%20teil%20%E2%80%93%20%22Die%20F%C3%BCllefrequenz%22.%20Wird%20richtig%20transformierend%20%F0%9F%94%A5%0A%0AKostenlos%20anmelden%3A%0Ahttps%3A%2F%2Fsonneimkopf.com%2Flive" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.832-1.438A9.955 9.955 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2z"/></svg>
+        WhatsApp
+      </a>
+      <a class="ty-share-btn facebook" href="https://www.facebook.com/sharer/sharer.php?u=https://sonneimkopf.com/live" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+        Facebook
+      </a>
+    </div>
+    <div class="ty-link-box">
+      <input type="text" value="https://sonneimkopf.com/live" id="shareLink" readonly>
+      <button onclick="copyLink()">Kopieren</button>
+    </div>
+  </div>
+
+  <footer class="ty-footer">
+    © <span id="footerYear"></span> Elisha Crowd · Sonne im Kopf &nbsp;|&nbsp; <a href="https://sonneimkopf.com/datenschutz">Datenschutz</a> &nbsp;|&nbsp; <a href="https://sonneimkopf.com/impressum">Impressum</a>
+  </footer>
+
+</div>
+
+<script>
+/* ═══════════════════════════════════════════════════════
+   AUTO-DATE LOGIK
+   - Zeigt immer den NÄCHSTEN Sonntag, 10:00 Berliner Zeit
+   - Wechsel auf den darauffolgenden Sonntag erfolgt
+     jeden Sonntag um Punkt 12:00 Uhr Berliner Zeit
+   - Kalender-Buttons (Google, Outlook, Apple) werden mit
+     dem selben automatisch berechneten Datum bestückt
+   - KEIN Link in der Kalender-Einladung (nur Titel,
+     Beschreibung und Ort "Online")
+   ═══════════════════════════════════════════════════════ */
+const EVENT = {
+  title: 'Die Füllefrequenz – LIVE Event mit Elisha Crowd',
+  description: 'Dein Live-Event mit Elisha Crowd. Aktiviere die Füllefrequenz.',
+  location: 'Online',
+  startHour: 10,    // Berliner Lokalzeit
+  endHour: 12,      // Berliner Lokalzeit – ab dieser Stunde am Sonntag
+                    // springt das angezeigte Datum auf den NÄCHSTEN Sonntag
+  switchHour: 12    // Punkt 12:00 mittags = Wechsel auf nächste Woche
+};
+
+(function() {
+  const pad = n => String(n).padStart(2, '0');
+
+  // 1. Aktuelle Berliner Zeit ermitteln (browser-unabhängig via Intl-Timezone)
+  const nowBerlin = new Date(new Date().toLocaleString('en-US', {timeZone: 'Europe/Berlin'}));
+  const day  = nowBerlin.getDay();    // 0 = Sonntag
+  const hour = nowBerlin.getHours();
+
+  // 2. Tage bis zum nächsten Sonntag berechnen
+  //    - Werktag (Mo–Sa)   → bis kommenden Sonntag
+  //    - Sonntag vor 12:00 → heute (Event noch nicht durch)
+  //    - Sonntag ab 12:00  → nächster Sonntag (Wechsel-Zeitpunkt)
+  let daysToAdd;
+  if (day === 0) {
+    daysToAdd = hour < EVENT.switchHour ? 0 : 7;
+  } else {
+    daysToAdd = 7 - day;
+  }
+
+  const target = new Date(nowBerlin);
+  target.setDate(nowBerlin.getDate() + daysToAdd);
+  const Y = target.getFullYear();
+  const M = target.getMonth();
+  const D = target.getDate();
+
+  // 3. CEST (+2) oder CET (+1)?  DST = letzter So März bis letzter So Oktober
+  function lastSunday(year, month) {
+    const d = new Date(year, month, 31);
+    while (d.getDay() !== 0) d.setDate(d.getDate() - 1);
+    return d;
+  }
+  const lastMar = lastSunday(Y, 2);
+  const lastOct = lastSunday(Y, 9);
+  const targetMidnight = new Date(Y, M, D);
+  const offset = (targetMidnight >= lastMar && targetMidnight < lastOct) ? 2 : 1;
+
+  // 4. UTC-Strings für Google Calendar & ICS bauen
+  const dateUTC  = `${Y}${pad(M+1)}${pad(D)}`;
+  const startUTC = `${dateUTC}T${pad(EVENT.startHour - offset)}0000Z`;
+  const endUTC   = `${dateUTC}T${pad(EVENT.endHour   - offset)}0000Z`;
+
+  // 5. Outlook braucht lokales Format mit Offset
+  const offsetStr    = `+${pad(offset)}:00`;
+  const isoDate      = `${Y}-${pad(M+1)}-${pad(D)}`;
+  const startOutlook = `${isoDate}T${pad(EVENT.startHour)}:00:00${offsetStr}`;
+  const endOutlook   = `${isoDate}T${pad(EVENT.endHour)}:00:00${offsetStr}`;
+
+  // 6. Deutsche Formatierung des Datums
+  const monthNames = ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'];
+  const dateStrDE = `Sonntag, ${D}. ${monthNames[M]} ${Y}`;
+
+  // 7. DOM updaten – angezeigtes Datum
+  document.getElementById('eventInfo').innerHTML =
+    `<strong>🗓 ${dateStrDE} · ${pad(EVENT.startHour)}:00 Uhr</strong><br>Dauer: ca. 90 Minuten · Online · Kostenlos`;
+
+  // 8. Kalender-Links bauen – OHNE URL/Link in der Beschreibung
+  document.getElementById('googleCalBtn').href =
+    `https://calendar.google.com/calendar/render?action=TEMPLATE` +
+    `&text=${encodeURIComponent(EVENT.title)}` +
+    `&dates=${startUTC}/${endUTC}` +
+    `&details=${encodeURIComponent(EVENT.description)}` +
+    `&location=${encodeURIComponent(EVENT.location)}`;
+
+  document.getElementById('outlookCalBtn').href =
+    `https://outlook.live.com/calendar/0/action/compose?subject=${encodeURIComponent(EVENT.title)}` +
+    `&startdt=${encodeURIComponent(startOutlook)}` +
+    `&enddt=${encodeURIComponent(endOutlook)}` +
+    `&body=${encodeURIComponent(EVENT.description)}` +
+    `&location=${encodeURIComponent(EVENT.location)}`;
+
+  // 9. Für .ics-Download speichern (Apple)
+  window.__eventData = {startUTC, endUTC};
+
+  // 10. Footer-Jahr automatisch aktuell halten
+  document.getElementById('footerYear').textContent = new Date().getFullYear();
+})();
+
+/* ═══ APPLE CALENDAR .ICS – ebenfalls ohne Link in DESCRIPTION ═══ */
+function downloadICS(e){
+  e.preventDefault();
+  const {startUTC, endUTC} = window.__eventData;
+  const ics = [
+    'BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Fuellefrequenz//DE',
+    'BEGIN:VEVENT',
+    `DTSTART:${startUTC}`,
+    `DTEND:${endUTC}`,
+    `SUMMARY:${EVENT.title}`,
+    `DESCRIPTION:${EVENT.description}`,
+    `LOCATION:${EVENT.location}`,
+    'END:VEVENT','END:VCALENDAR'
+  ].join('\r\n');
+  const blob = new Blob([ics], {type:'text/calendar;charset=utf-8'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'fuellefrequenz-live.ics';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+/* ═══ COPY LINK ═══ */
+function copyLink(){
+  const input = document.getElementById('shareLink');
+  input.select();
+  navigator.clipboard.writeText(input.value).then(function(){
+    const btn = input.nextElementSibling;
+    btn.textContent = 'Kopiert ✓';
+    setTimeout(function(){btn.textContent='Kopieren';},2000);
+  });
+}
+
+/* ═══ GOLD CONFETTI ═══ */
+(function(){
+  var c=document.getElementById('confetti'),ctx=c.getContext('2d');
+  var W,H;
+  function resize(){W=c.width=window.innerWidth;H=c.height=window.innerHeight;}
+  resize();window.addEventListener('resize',resize);
+
+  var particles=[];
+  var colors=['#c9a84c','#e8c96a','#a07830','#d4b85a','#f0d878','#8a6820','#c9a84c','#f5e6b8'];
+  var shapes=['rect','circle','strip'];
+
+  function Particle(){
+    this.x=Math.random()*W;
+    this.y=Math.random()*-H;
+    this.w=Math.random()*10+5;
+    this.h=Math.random()*6+3;
+    this.vx=(Math.random()-0.5)*3;
+    this.vy=Math.random()*4+2;
+    this.rot=Math.random()*360;
+    this.rotSpeed=(Math.random()-0.5)*8;
+    this.color=colors[Math.floor(Math.random()*colors.length)];
+    this.shape=shapes[Math.floor(Math.random()*shapes.length)];
+    this.opacity=1;
+    this.wobble=Math.random()*0.1+0.03;
+    this.wobbleAmp=Math.random()*40+10;
+    this.startX=this.x;
+    this.life=0;
+  }
+  Particle.prototype.update=function(){
+    this.life++;
+    this.vy+=0.04;
+    this.y+=this.vy;
+    this.x=this.startX+Math.sin(this.life*this.wobble)*this.wobbleAmp;
+    this.rot+=this.rotSpeed;
+    if(this.y>H+50)this.opacity=0;
+  };
+  Particle.prototype.draw=function(){
+    if(this.opacity<=0)return;
+    ctx.save();
+    ctx.translate(this.x,this.y);
+    ctx.rotate(this.rot*Math.PI/180);
+    ctx.globalAlpha=this.opacity;
+    ctx.fillStyle=this.color;
+    if(this.shape==='rect'){ctx.fillRect(-this.w/2,-this.h/2,this.w,this.h);}
+    else if(this.shape==='circle'){ctx.beginPath();ctx.arc(0,0,this.w/3,0,Math.PI*2);ctx.fill();}
+    else{ctx.fillRect(-this.w/2,-1,this.w,2);}
+    ctx.restore();
+  };
+
+  for(var i=0;i<200;i++){
+    var p=new Particle();
+    p.y=Math.random()*-200-50;
+    p.vy=Math.random()*3+1;
+    particles.push(p);
+  }
+
+  var frame=0;
+  function loop(){
+    frame++;
+    ctx.clearRect(0,0,W,H);
+    var alive=false;
+    for(var i=0;i<particles.length;i++){
+      particles[i].update();
+      particles[i].draw();
+      if(particles[i].opacity>0)alive=true;
+    }
+    if(alive&&frame<400)requestAnimationFrame(loop);
+    else{c.style.display='none';}
+  }
+  loop();
+})();
+</script>
+</body>
+</html>
