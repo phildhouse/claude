@@ -4,4 +4,6 @@ shortlist.json
 shortlist.csv
 curated.json
 curated.csv
+curated-*.json
+curated-*.csv
 .env
