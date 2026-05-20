@@ -21,8 +21,8 @@ const ACTOR_ID = 'shu8hvrXbJbY3Eb9W'; // apify/instagram-scraper
 
 // --- KONFIGURATION ---
 // DACH-spezifische Hashtags für Business / Online-Marketing
-const HASHTAGS = ['unternehmer', 'selbststaendig'];
-const POSTS_PER_HASHTAG = 150;       // -> Discovery: 2 * 150 = 300 results (~$0.81)
+const HASHTAGS = ['unternehmer', 'onlinebusiness', 'selbststaendig', 'agentur'];
+const POSTS_PER_HASHTAG = 80;        // -> Discovery: 4 * 80 = 320 results (~$0.86)
 const MAX_PROFILES_TO_ENRICH = 120;  // -> Profile-Details (~$0.32)
 // Gesamtkosten erste Runde: ~$1.20
 
@@ -62,12 +62,11 @@ const hasFunnelRedFlag = (bio = '') => {
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 // --- STUFE 1: DISCOVERY ---
-console.log(`\n[1/3] Discovery via Hashtags: ${HASHTAGS.join(', ')}`);
+console.log(`\n[1/3] Discovery via Hashtag-URLs: ${HASHTAGS.join(', ')}`);
+const hashtagUrls = HASHTAGS.map((h) => `https://www.instagram.com/explore/tags/${h}/`);
 const discoveryInput = {
     resultsType: 'posts',
-    search: HASHTAGS.join(','),
-    searchType: 'hashtag',
-    searchLimit: HASHTAGS.length,
+    directUrls: hashtagUrls,
     resultsLimit: POSTS_PER_HASHTAG,
     addParentData: false,
 };

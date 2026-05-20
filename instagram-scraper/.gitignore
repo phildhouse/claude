@@ -1,3 +1,5 @@
 node_modules/
 results.json
+shortlist.json
+shortlist.csv
 .env
