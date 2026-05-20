@@ -2,4 +2,6 @@ node_modules/
 results.json
 shortlist.json
 shortlist.csv
+curated.json
+curated.csv
 .env
