@@ -6,4 +6,7 @@ curated.json
 curated.csv
 curated-*.json
 curated-*.csv
+biohacking*.json
+biohacking*.csv
+biohacker-seeds.json
 .env
