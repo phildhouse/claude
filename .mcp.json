@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "apify": {
+      "type": "http",
+      "url": "https://mcp.apify.com/?actors=apify/instagram-search-scraper,apify/instagram-profile-scraper,apify/instagram-scraper",
+      "headers": {
+        "Authorization": "Bearer ${APIFY_TOKEN}"
+      }
+    }
+  }
+}
