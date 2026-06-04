@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The Claude Skills Playbook — Marston AI</title>
+<style>
+  @page {
+    size: A4;
+    margin: 16mm 14mm 18mm 14mm;
+    @bottom-center {
+      content: "Marston AI  ·  The Claude Skills Playbook  ·  marstonai";
+      font-family: 'Inter', sans-serif;
+      font-size: 7.5pt;
+      color: #9aa0b5;
+      letter-spacing: 0.04em;
+    }
+    @bottom-right {
+      content: counter(page);
+      font-family: 'Inter', sans-serif;
+      font-size: 8pt;
+      color: #7C5CFF;
+      font-weight: 700;
+    }
+  }
+  @page cover { margin: 0; @bottom-center { content: ""; } @bottom-right { content: ""; } }
+
+  * { box-sizing: border-box; }
+  html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  body {
+    font-family: 'Helvetica Neue', 'Arial', sans-serif;
+    color: #1a1c28;
+    margin: 0;
+    font-size: 10pt;
+    line-height: 1.5;
+  }
+  a { color: #5b3df0; text-decoration: none; word-break: break-all; }
+
+  /* ---------- COVER ---------- */
+  .cover {
+    page: cover;
+    position: relative;
+    height: 297mm;
+    width: 210mm;
+    background: radial-gradient(120% 90% at 80% 0%, #2a1d6e 0%, #14102e 45%, #0a0814 100%);
+    color: #fff;
+    padding: 30mm 22mm;
+    overflow: hidden;
+  }
+  .cover .glow {
+    position: absolute; border-radius: 50%; filter: blur(8px);
+  }
+  .cover .g1 { width: 300mm; height: 300mm; left: -120mm; top: -150mm;
+    background: radial-gradient(circle, rgba(124,92,255,0.35) 0%, rgba(124,92,255,0) 60%); }
+  .cover .g2 { width: 200mm; height: 200mm; right: -80mm; bottom: -90mm;
+    background: radial-gradient(circle, rgba(255,107,74,0.30) 0%, rgba(255,107,74,0) 60%); }
+
+  .brandrow { display: flex; align-items: center; gap: 10px; position: relative; }
+  .logo-mark {
+    width: 34px; height: 34px; border-radius: 9px;
+    background: linear-gradient(135deg, #7C5CFF, #FF6B4A);
+    display: inline-block; position: relative;
+  }
+  .logo-mark::after{ content:"M"; position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+    font-weight:800; font-size:19px; color:#fff; }
+  .brandname { font-weight: 800; letter-spacing: 0.16em; font-size: 12pt; text-transform: uppercase; }
+  .brandname small { display:block; font-weight:500; letter-spacing:0.28em; font-size:7pt; color:#b9b3e6; margin-top:2px; }
+
+  .cover h1 {
+    position: relative;
+    font-size: 50pt; line-height: 1.02; font-weight: 800; margin: 60mm 0 0 0;
+    letter-spacing: -0.02em;
+  }
+  .cover h1 .accent { background: linear-gradient(100deg,#9d86ff,#ff8a6b);
+    -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .cover .sub { position: relative; font-size: 13pt; color: #d8d5f0; margin-top: 10mm; max-width: 150mm; font-weight: 400; }
+  .cover .kicker { position: relative; margin-top: 4mm; display:inline-block; font-size: 8.5pt; letter-spacing: 0.2em;
+    text-transform: uppercase; color:#0a0814; background: #ffd34d; padding: 5px 12px; border-radius: 999px; font-weight:700;}
+
+  .cover .meta { position: absolute; left: 22mm; bottom: 24mm; font-size: 9pt; color:#c7c3e8; line-height:1.7; }
+  .cover .meta strong { color:#fff; }
+  .cover .count-strip { position:absolute; right:22mm; bottom:24mm; text-align:right; }
+  .cover .count-strip .big { font-size: 40pt; font-weight:800; line-height:1;
+    background: linear-gradient(100deg,#9d86ff,#ff8a6b); -webkit-background-clip:text; background-clip:text; color:transparent;}
+  .cover .count-strip .lbl { font-size:8pt; letter-spacing:0.18em; text-transform:uppercase; color:#b9b3e6; }
+
+  /* ---------- CONTENT ---------- */
+  .page-break { page-break-before: always; }
+  h2.section {
+    font-size: 19pt; font-weight: 800; letter-spacing: -0.01em; margin: 0 0 2mm 0; color:#14102e;
+  }
+  .section-wrap { border-top: 3px solid #7C5CFF; padding-top: 5mm; margin-top: 2mm; }
+  .section-num { color:#7C5CFF; font-weight:800; font-size: 11pt; letter-spacing:0.1em; }
+  .section-intro { color:#54586e; font-size: 9.5pt; margin: 1mm 0 5mm 0; max-width: 165mm; }
+
+  .intro-h { font-size: 22pt; font-weight: 800; color:#14102e; margin: 0 0 3mm; letter-spacing:-0.01em;}
+  .lead { font-size: 10.5pt; color:#3a3e52; }
+  .callout {
+    background: #f5f3ff; border: 1px solid #e4ddff; border-left: 4px solid #7C5CFF;
+    border-radius: 10px; padding: 5mm 6mm; margin: 5mm 0; font-size: 9.5pt; color:#312a52;
+  }
+  .callout b { color:#5b3df0; }
+  .steps { margin: 0; padding: 0; list-style: none; counter-reset: s; }
+  .steps li { position: relative; padding: 3mm 0 3mm 12mm; border-bottom: 1px dashed #e7e4f2; font-size: 9.7pt;}
+  .steps li:last-child{ border-bottom:none; }
+  .steps li::before { counter-increment: s; content: counter(s); position:absolute; left:0; top:3mm;
+    width: 8mm; height: 8mm; border-radius:50%; background: linear-gradient(135deg,#7C5CFF,#FF6B4A); color:#fff;
+    display:flex; align-items:center; justify-content:center; font-weight:800; font-size:9pt; }
+  code.inline { background:#efeafe; color:#5b3df0; padding:1px 6px; border-radius:5px; font-size:8.6pt;
+    font-family:'SF Mono','Menlo',monospace; }
+
+  /* skill card */
+  .card {
+    border: 1px solid #eceaf6; border-radius: 12px; padding: 4.5mm 5mm; margin-bottom: 4mm;
+    page-break-inside: avoid; background: #fff;
+  }
+  .card-head { display:flex; align-items:baseline; justify-content:space-between; gap:8px; }
+  .card h3 { font-size: 12pt; margin: 0; color:#14102e; font-weight:800; letter-spacing:-0.01em;
+    flex: 1 1 auto; overflow-wrap: normal; }
+  .badge { flex: 0 0 auto; }
+  .badge { font-size:7pt; font-weight:700; letter-spacing:0.08em; text-transform:uppercase;
+    padding: 2px 8px; border-radius:999px; white-space:nowrap; }
+  .b-official { background:#e8f0ff; color:#2f5bd0; }
+  .b-viral { background:#fff0e8; color:#e0531f; }
+  .b-community { background:#eafaf0; color:#1f9f5a; }
+  .b-vendor { background:#f0ecff; color:#6a3df0; }
+  .card .desc { margin: 2mm 0 2.5mm; font-size: 9.4pt; color:#3a3e52; }
+  .card .why { font-size: 9pt; color:#54586e; margin-bottom: 2.5mm; }
+  .card .why b { color:#e0531f; }
+  .card .foot { display:flex; justify-content:space-between; gap:8px; font-size: 8.4pt; border-top:1px solid #f0eef8; padding-top:2mm;}
+  .card .by { color:#7a7e92; }
+  .card .by b { color:#3a3e52; }
+  .card .link { color:#5b3df0; font-weight:600; text-align:right; }
+
+  .twocol { column-count: 2; column-gap: 7mm; }
+  .mini { break-inside: avoid; border:1px solid #eceaf6; border-radius:10px; padding:3.5mm 4mm; margin-bottom:3.5mm; }
+  .mini h4 { margin:0 0 1.5mm; font-size:10pt; color:#14102e; font-weight:800;}
+  .mini .m-by { font-size:7.8pt; color:#9094a8; margin-bottom:1.5mm;}
+  .mini p { margin:0 0 2mm; font-size:8.7pt; color:#4a4e62;}
+  .mini a { font-size:7.8pt; font-weight:600; }
+
+  table.hub { width:100%; border-collapse:collapse; margin-top:3mm; font-size:9pt; }
+  table.hub th { text-align:left; background:#14102e; color:#fff; padding:3mm 4mm; font-size:8.5pt; letter-spacing:0.04em;}
+  table.hub td { padding:3mm 4mm; border-bottom:1px solid #ececf4; vertical-align:top; }
+  table.hub tr:nth-child(even) td { background:#faf9ff; }
+  table.hub .t-name { font-weight:700; color:#14102e; }
+
+  .endnote { margin-top:6mm; padding:6mm; border-radius:14px;
+    background: radial-gradient(120% 140% at 0% 0%, #2a1d6e, #14102e); color:#fff; page-break-inside:avoid;}
+  .endnote h3 { margin:0 0 2mm; font-size:15pt; }
+  .endnote p { color:#cdc9ec; font-size:9.3pt; margin:0 0 2mm;}
+  .endnote .sign { margin-top:3mm; font-weight:700; color:#ffd34d; letter-spacing:0.04em;}
+
+  .tag { display:inline-block; font-size:7.6pt; color:#7C5CFF; border:1px solid #ddd5ff; border-radius:999px;
+    padding:1px 7px; margin: 0 3px 3px 0; }
+</style>
+</head>
+<body>
+
+<!-- ============ COVER ============ -->
+<div class="cover">
+  <div class="glow g1"></div>
+  <div class="glow g2"></div>
+
+  <div class="brandrow">
+    <span class="logo-mark"></span>
+    <span class="brandname">Marston AI<small>BUILD FASTER · SHIP SMARTER</small></span>
+  </div>
+
+  <h1>The Claude<br>Skills <span class="accent">Playbook</span></h1>
+  <div class="kicker">For AI Builders · 2026 Edition</div>
+  <p class="sub">The proven, done-for-you Claude Skills the best builders are actually using —
+  hand-picked from GitHub, X and the community. Drop them in, level up Claude instantly.</p>
+
+  <div class="meta">
+    Curated by <strong>Marston Teodoro</strong><br>
+    Marston AI · June 2026<br>
+    35+ skills · full credits &amp; links inside
+  </div>
+  <div class="count-strip">
+    <div class="big">35+</div>
+    <div class="lbl">battle-tested skills</div>
+  </div>
+</div>
+
+<!-- ============ INTRO ============ -->
+<div class="page-break"></div>
+<div class="intro-h">Skills are the cheat code. This is the loadout.</div>
+<p class="lead">A <b>Claude Skill</b> is a small folder — usually just a <code class="inline">SKILL.md</code> file
+with instructions, plus optional scripts and resources — that Claude loads <i>on demand</i> to become an
+instant expert at a specific job: building videos, writing production React, auditing security, cutting your token bill.
+You don't prompt-engineer it every time. You install it once, and Claude just <i>knows</i>.</p>
+
+<p class="lead">This isn't a "how to build skills" doc. It's a curated stash of the <b>best skills that already
+exist</b> — proven on GitHub, gone viral on X, recommended on Reddit — with full credit to the people who made them.
+Steal freely. Ship faster.</p>
+
+<div class="callout">
+  <b>How to install any skill in this guide</b>
+  <ol class="steps" style="margin-top:3mm;">
+    <li>Grab the skill folder from its repo (the link is on every card).</li>
+    <li>Drop it into <code class="inline">~/.claude/skills/</code> for global use, or <code class="inline">.claude/skills/</code> inside a project. On Claude.ai, upload the skill in <b>Settings → Capabilities → Skills</b>.</li>
+    <li>Restart Claude Code (or refresh). It auto-detects the skill from the description.</li>
+    <li>Trigger it naturally — "make me a video", "grill me on this plan" — or run its slash command. Claude loads it only when it's relevant, so your context stays clean.</li>
+  </ol>
+</div>
+
+<p class="lead" style="margin-top:4mm;"><b>How this guide is organized.</b> Nine sections, from the official Anthropic
+foundation to the viral game-changers, creative tooling, production web, security, growth and beyond. Each card tells you
+<i>what it does</i>, <i>why it's worth it</i>, <i>who made it</i>, and <i>where to get it</i>.</p>
+
+<div style="margin-top:3mm;">
+  <span class="tag">Official Anthropic</span><span class="tag">Viral on X</span><span class="tag">Video &amp; Creative</span>
+  <span class="tag">Production Web</span><span class="tag">Security</span><span class="tag">Marketing &amp; Growth</span>
+  <span class="tag">Data &amp; Science</span><span class="tag">Mobile &amp; Automation</span><span class="tag">Discovery Hubs</span>
+</div>
+
+<!-- ============ SECTION 1 ============ -->
+<div class="page-break"></div>
+<div class="section-wrap">
+  <div class="section-num">SECTION 01</div>
+  <h2 class="section">The Official Foundation</h2>
+  <p class="section-intro">Anthropic's own open-source skills (<a href="https://github.com/anthropics/skills">github.com/anthropics/skills</a>,
+  146k★). If you install nothing else, install these. They make Claude produce real files and ship real interfaces.</p>
+</div>
+
+<div class="card">
+  <div class="card-head"><h3>Document Skills — pdf · docx · pptx · xlsx</h3><span class="badge b-official">Anthropic</span></div>
+  <div class="desc">Create, edit and parse real Office &amp; PDF files — tracked changes in Word, formulas and pivot tables in Excel, templated decks in PowerPoint, form-filling and merging in PDF.</div>
+  <div class="why"><b>Why:</b> turns Claude from "writes about a report" into "hands you the finished .docx/.xlsx/.pdf." The backbone of every document workflow.</div>
+  <div class="foot"><span class="by">by <b>Anthropic</b></span><span class="link">github.com/anthropics/skills/tree/main/skills</span></div>
+</div>
+
+<div class="card">
+  <div class="card-head"><h3>mcp-builder</h3><span class="badge b-official">Anthropic</span></div>
+  <div class="desc">Scaffolds a full Model Context Protocol server so Claude can wire up any external API as native tools.</div>
+  <div class="why"><b>Why:</b> the fastest way to connect Claude to your own stack — go from API docs to working MCP server in one session.</div>
+  <div class="foot"><span class="by">by <b>Anthropic</b></span><span class="link">github.com/anthropics/skills/tree/main/skills/mcp-builder</span></div>
+</div>
+
+<div class="card">
+  <div class="card-head"><h3>webapp-testing</h3><span class="badge b-official">Anthropic</span></div>
+  <div class="desc">Drives your running web app in a real browser via Playwright to verify UI, flows and regressions.</div>
+  <div class="why"><b>Why:</b> Claude stops guessing whether the feature works and actually clicks through it.</div>
+  <div class="foot"><span class="by">by <b>Anthropic</b></span><span class="link">github.com/anthropics/skills/tree/main/skills/webapp-testing</span></div>
+</div>
+
+<div class="card">
+  <div class="card-head"><h3>frontend-design &amp; web-artifacts-builder</h3><span class="badge b-official">Anthropic</span></div>
+  <div class="desc">Design guidance that dodges generic "AI slop" aesthetics, plus a builder for rich HTML/React + shadcn/ui artifacts.</div>
+  <div class="why"><b>Why:</b> the difference between a templated landing page and something that looks intentionally designed.</div>
+  <div class="foot"><span class="by">by <b>Anthropic</b></span><span class="link">github.com/anthropics/skills</span></div>
+</div>
+
+<div class="card">
+  <div class="card-head"><h3>skill-creator</h3><span class="badge b-official">Anthropic</span></div>
+  <div class="desc">An interactive, guided builder for packaging your own repeatable workflow into a proper skill.</div>
+  <div class="why"><b>Why:</b> the most useful skill is often one you build yourself — this is the on-ramp once you've outgrown the stash.</div>
+  <div class="foot"><span class="by">by <b>Anthropic</b></span><span class="link">github.com/anthropics/skills/tree/main/skills/skill-creator</span></div>
+</div>
+
+<div class="card">
+  <div class="card-head"><h3>Creative &amp; Comms pack — algorithmic-art · canvas-design · slack-gif-creator · brand-guidelines · internal-comms · claude-api</h3><span class="badge b-official">Anthropic</span></div>
+  <div class="desc">Generative p5.js art, PNG/PDF visual design, Slack-optimized animated GIFs, brand-consistent output, polished internal comms, and a Claude API helper.</div>
+  <div class="why"><b>Why:</b> a grab-bag of quick wins that cover the everyday "make this look good / on-brand" asks.</div>
+  <div class="foot"><span class="by">by <b>Anthropic</b></span><span class="link">github.com/anthropics/skills</span></div>
+</div>
+
+<!-- ============ SECTION 2 ============ -->
+<div class="page-break"></div>
+<div class="section-wrap">
+  <div class="section-num">SECTION 02</div>
+  <h2 class="section">The Viral Game-Changers</h2>
+  <p class="section-intro">The skills that blew up on X and Hacker News in 2026 because they fix how Claude <i>thinks and talks</i> — not just what it builds. Highest ROI on this whole list.</p>
+</div>
+
+<div class="card">
+  <div class="card-head"><h3>grill-me</h3><span class="badge b-viral">Viral · X</span></div>
+  <div class="desc">Flips the script: Claude interviews <i>you</i> relentlessly about your plan — sometimes 50+ questions over ~45 minutes — until every branch of the decision tree is resolved, then writes a single line of code.</div>
+  <div class="why"><b>Why:</b> kills the #1 failure mode in agentic coding — Claude charging ahead on wrong assumptions. Pocock's <code class="inline">skills</code> repo hit ~74k★. <b>Install this first.</b></div>
+  <div class="foot"><span class="by">by <b>Matt Pocock</b></span><span class="link">github.com/mattpocock/skills</span></div>
+</div>
+
+<div class="card">
+  <div class="card-head"><h3>Caveman 🪨</h3><span class="badge b-viral">Viral · #1 HN</span></div>
+  <div class="desc">"Why use many token when few token do trick." Strips narration, filler and pleasantries from Claude's output — keeping every code block, error string and symbol byte-for-byte intact.</div>
+  <div class="why"><b>Why:</b> cuts output tokens ~65% on average (up to 87%). Real money and context saved on long sessions. Hit #1 trending on GitHub and #1 on Hacker News.</div>
+  <div class="foot"><span class="by">by <b>Julius Brussee</b></span><span class="link">github.com/JuliusBrussee/caveman</span></div>
+</div>
+
+<div class="card">
+  <div class="card-head"><h3>Andrej Karpathy's Coding Guidelines</h3><span class="badge b-viral">Viral · 144k★</span></div>
+  <div class="desc">Encodes Karpathy's four anti-frustration principles into one drop-in file: think before acting, prefer simplicity, make surgical changes, stay goal-driven.</div>
+  <div class="why"><b>Why:</b> targets the three things that make agents maddening — silent wrong assumptions, over-engineering (50 lines → 500), and touching code it was never asked to. Went viral the week Karpathy posted.</div>
+  <div class="foot"><span class="by">by <b>Forrest Chang</b> (from Andrej Karpathy)</span><span class="link">github.com/multica-ai/andrej-karpathy-skills</span></div>
+</div>
+
+<div class="card">
+  <div class="card-head"><h3>Handoff</h3><span class="badge b-viral">Viral · X</span></div>
+  <div class="desc">Compresses a long, messy session into a clean markdown brief so you can continue in a fresh context window without losing the thread.</div>
+  <div class="why"><b>Why:</b> the elegant fix for context rot — end a session, hand off, start fresh and fast.</div>
+  <div class="foot"><span class="by">by <b>Matt Pocock</b></span><span class="link">aihero.dev/skills-handoff</span></div>
+</div>
+
+<div class="card">
+  <div class="card-head"><h3>Superpowers</h3><span class="badge b-community">Framework · 217k★</span></div>
+  <div class="desc">A whole methodology-as-skills: 20+ composable, battle-tested patterns — TDD (red-green-refactor), 4-phase systematic debugging, brainstorming, writing/executing plans, git worktrees, subagent-driven development.</div>
+  <div class="why"><b>Why:</b> the most complete community skill library going. Turns Claude into a disciplined senior engineer with an actual process.</div>
+  <div class="foot"><span class="by">by <b>Jesse Vincent</b> (obra)</span><span class="link">github.com/obra/superpowers</span></div>
+</div>
+
+<!-- ============ SECTION 3 ============ -->
+<div class="page-break"></div>
+<div class="section-wrap">
+  <div class="section-num">SECTION 03</div>
+  <h2 class="section">Video, Design &amp; Creative</h2>
+  <p class="section-intro">Where Claude stops being a coder and becomes a content studio. The Remotion skill alone is worth the price of admission.</p>
+</div>
+
+<div class="card">
+  <div class="card-head"><h3>Remotion — Programmatic Video ⭐</h3><span class="badge b-vendor">Official · Remotion</span></div>
+  <div class="desc">Teaches Claude the full Remotion framework — React-for-video — so you can prompt animated explainers, product demos, data-viz videos and edits that render to MP4 locally. No After Effects, no cloud render bill.</div>
+  <div class="why"><b>Why:</b> the standout creative skill of 2026 (~117k weekly installs). Type a prompt, get a real video. Insane leverage for AI builders making content.</div>
+  <div class="foot"><span class="by">by <b>Remotion</b></span><span class="link">remotion.dev/docs/ai/skills · github.com/remotion-dev/skills</span></div>
+</div>
+
+<div class="card">
+  <div class="card-head"><h3>Figma — implement-design &amp; code-connect</h3><span class="badge b-vendor">Official · Figma</span></div>
+  <div class="desc">Translates Figma frames into production code with real fidelity, and maps design components to your codebase components.</div>
+  <div class="why"><b>Why:</b> closes the design-to-code gap that usually eats a day. Paste a frame, get faithful components.</div>
+  <div class="foot"><span class="by">by <b>Figma</b></span><span class="link">officialskills.sh/figma/skills</span></div>
+</div>
+
+<div class="twocol">
+  <div class="mini">
+    <h4>frontend-slides</h4>
+    <div class="m-by">by zarazhangrui</div>
+    <p>Animation-rich HTML presentations — decks that actually move, generated from a prompt.</p>
+    <a href="https://github.com/zarazhangrui/frontend-slides">github.com/zarazhangrui/frontend-slides</a>
+  </div>
+  <div class="mini">
+    <h4>web-asset-generator</h4>
+    <div class="m-by">by alonw0</div>
+    <p>Spits out favicons, app icons and social/OG share images in every size you need.</p>
+    <a href="https://github.com/alonw0/web-asset-generator">github.com/alonw0/web-asset-generator</a>
+  </div>
+  <div class="mini">
+    <h4>claude-d3js-skill</h4>
+    <div class="m-by">by chrisvoncsefalvay</div>
+    <p>Builds proper D3.js data visualizations — charts that go beyond the default chart library look.</p>
+    <a href="https://github.com/chrisvoncsefalvay/claude-d3js-skill">github.com/chrisvoncsefalvay/claude-d3js-skill</a>
+  </div>
+  <div class="mini">
+    <h4>shadcn/ui skills</h4>
+    <div class="m-by">by shadcn</div>
+    <p>Feeds Claude real shadcn/ui component context and enforces the right patterns instead of guessing.</p>
+    <a href="https://ui.shadcn.com/docs/skills">ui.shadcn.com/docs/skills</a>
+  </div>
+</div>
+
+<!-- ============ SECTION 4 ============ -->
+<div class="page-break"></div>
+<div class="section-wrap">
+  <div class="section-num">SECTION 04</div>
+  <h2 class="section">Ship Production Web Apps</h2>
+  <p class="section-intro">Official skills straight from the platforms you deploy on. Each one bakes hundreds of hard-won rules into Claude so your code matches how the experts actually do it.</p>
+</div>
+
+<div class="card">
+  <div class="card-head"><h3>Vercel Agent Skills</h3><span class="badge b-vendor">Official · Vercel</span></div>
+  <div class="desc">A suite: <b>react-best-practices</b> (40+ perf rules), <b>web-design-guidelines</b> (100+ a11y/UX rules), <b>next-best-practices</b>, <b>composition-patterns</b>, <b>writing-guidelines</b>, and <b>vercel-optimize</b> (audits cost/perf/caching/billing).</div>
+  <div class="why"><b>Why:</b> turns "it works" into "it's fast, accessible and cheap to run." Some of the highest-signal skills published.</div>
+  <div class="foot"><span class="by">by <b>Vercel</b></span><span class="link">github.com/vercel-labs/agent-skills</span></div>
+</div>
+
+<div class="twocol">
+  <div class="mini">
+    <h4>Stripe — best-practices</h4>
+    <div class="m-by">Official · Stripe</div>
+    <p>The right way to build Stripe integrations: idempotency, webhooks, edge cases — payments done correctly.</p>
+    <a href="https://officialskills.sh/stripe/skills/stripe-best-practices">officialskills.sh/stripe/skills</a>
+  </div>
+  <div class="mini">
+    <h4>Cloudflare — Workers &amp; Durable Objects</h4>
+    <div class="m-by">Official · Cloudflare</div>
+    <p>Production Workers patterns and stateful coordination with RPC + SQLite Durable Objects.</p>
+    <a href="https://officialskills.sh/cloudflare/skills">officialskills.sh/cloudflare/skills</a>
+  </div>
+  <div class="mini">
+    <h4>Netlify — Functions &amp; DB</h4>
+    <div class="m-by">Official · Netlify</div>
+    <p>Serverless endpoints, background tasks, and managed Postgres with deploy-preview branching.</p>
+    <a href="https://officialskills.sh/netlify/skills">officialskills.sh/netlify/skills</a>
+  </div>
+  <div class="mini">
+    <h4>Sentry — setup &amp; fix-issues</h4>
+    <div class="m-by">Official · Sentry</div>
+    <p>Wire up Sentry in any stack, then find and fix production issues with full trace context.</p>
+    <a href="https://officialskills.sh/getsentry/skills">officialskills.sh/getsentry/skills</a>
+  </div>
+  <div class="mini">
+    <h4>Expo — native UI &amp; deploy</h4>
+    <div class="m-by">Official · Expo</div>
+    <p>Build cross-platform mobile apps with Expo Router, styling and navigation, then ship to production.</p>
+    <a href="https://officialskills.sh/expo/skills">officialskills.sh/expo/skills</a>
+  </div>
+  <div class="mini">
+    <h4>Hugging Face — trainer &amp; gradio</h4>
+    <div class="m-by">Official · Hugging Face</div>
+    <p>Train models with TRL (SFT/DPO/GRPO) and ship Gradio demos to HF Spaces.</p>
+    <a href="https://officialskills.sh/huggingface/skills">officialskills.sh/huggingface/skills</a>
+  </div>
+</div>
+
+<!-- ============ SECTION 5 ============ -->
+<div class="page-break"></div>
+<div class="section-wrap">
+  <div class="section-num">SECTION 05</div>
+  <h2 class="section">Security &amp; Hardening</h2>
+  <p class="section-intro">Before you ship, let Claude wear a red team hat. These come from people who break software for a living.</p>
+</div>
+
+<div class="card">
+  <div class="card-head"><h3>Trail of Bits Security Skills</h3><span class="badge b-vendor">Official · Trail of Bits</span></div>
+  <div class="desc">21+ security skills from one of the most respected audit firms: CodeQL &amp; Semgrep static analysis, a <b>semgrep-rule-creator</b>, vulnerability detection, threat modeling, and <b>building-secure-contracts</b> covering six blockchains.</div>
+  <div class="why"><b>Why:</b> professional-grade auditing baked into your agent. Catch the bug before an attacker does.</div>
+  <div class="foot"><span class="by">by <b>Trail of Bits</b></span><span class="link">github.com/trailofbits/skills</span></div>
+</div>
+
+<div class="card">
+  <div class="card-head"><h3>ffuf Web Fuzzing</h3><span class="badge b-community">Community</span></div>
+  <div class="desc">Teaches Claude to drive <code class="inline">ffuf</code> for web fuzzing — including authenticated requests — to find hidden endpoints and parameters.</div>
+  <div class="why"><b>Why:</b> hands-on recon for authorized pentesting and bug-bounty work, guided by an experienced hacker.</div>
+  <div class="foot"><span class="by">by <b>Jason Haddix</b> (jthack)</span><span class="link">github.com/jthack/ffuf_claude_skill</span></div>
+</div>
+
+<!-- ============ SECTION 6 ============ -->
+<div class="page-break"></div>
+<div class="section-wrap">
+  <div class="section-num">SECTION 06</div>
+  <h2 class="section">Marketing &amp; Growth</h2>
+  <p class="section-intro">You're an AI builder — building it is half the job. These turn Claude into a growth team that knows real marketing frameworks, not generic fluff.</p>
+</div>
+
+<div class="card">
+  <div class="card-head"><h3>Corey Haines' Marketing Skills</h3><span class="badge b-community">Community · 50+ skills</span></div>
+  <div class="desc">A full SaaS marketing stack as skills: conversion-rate optimization, copywriting, SEO audits, email lifecycle flows, paid ads (Google/Meta/LinkedIn/X), analytics, retention, growth engineering and strategy.</div>
+  <div class="why"><b>Why:</b> from a well-known SaaS marketer — Claude stops writing vague copy and starts applying actual CRO and positioning frameworks.</div>
+  <div class="foot"><span class="by">by <b>Corey Haines</b></span><span class="link">github.com/coreyhaines31/marketingskills</span></div>
+</div>
+
+<div class="card">
+  <div class="card-head"><h3>Direct-Response Advertising Skills</h3><span class="badge b-community">Community</span></div>
+  <div class="desc">Classic direct-response craft: customer-avatar work and Eugene Schwartz–style copywriting for ads that convert.</div>
+  <div class="why"><b>Why:</b> pairs perfectly with the marketing pack when you're writing paid creative that has to sell.</div>
+  <div class="foot"><span class="by">by <b>Kim Barrett</b></span><span class="link">github.com/realkimbarrett/advertising-skills</span></div>
+</div>
+
+<!-- ============ SECTION 7 ============ -->
+<div class="page-break"></div>
+<div class="section-wrap">
+  <div class="section-num">SECTION 07</div>
+  <h2 class="section">Data, Science &amp; Mobile</h2>
+  <p class="section-intro">Specialist skills for when the work gets technical — research, scientific computing, and shipping to phones.</p>
+</div>
+
+<div class="twocol">
+  <div class="mini">
+    <h4>claude-scientific-skills</h4>
+    <div class="m-by">by K-Dense-AI</div>
+    <p>Wires in scientific libraries and specialized database access for real research workflows and analysis.</p>
+    <a href="https://github.com/K-Dense-AI/claude-scientific-skills">github.com/K-Dense-AI/claude-scientific-skills</a>
+  </div>
+  <div class="mini">
+    <h4>ios-simulator-skill</h4>
+    <div class="m-by">by conorluddy</div>
+    <p>Builds, boots and tests iOS apps in the simulator automatically — Claude can iterate on a real device window.</p>
+    <a href="https://github.com/conorluddy/ios-simulator-skill">github.com/conorluddy/ios-simulator-skill</a>
+  </div>
+  <div class="mini">
+    <h4>playwright-skill</h4>
+    <div class="m-by">by lackeyjb</div>
+    <p>Standalone browser automation via Playwright — scraping, E2E flows and UI checks on any site.</p>
+    <a href="https://github.com/lackeyjb/playwright-skill">github.com/lackeyjb/playwright-skill</a>
+  </div>
+  <div class="mini">
+    <h4>Firecrawl Skill + CLI</h4>
+    <div class="m-by">by Firecrawl</div>
+    <p>Web scraping, search and browser automation built for AI agents — clean data in, no HTML mess.</p>
+    <a href="https://github.com/firecrawl/firecrawl">github.com/firecrawl/firecrawl</a>
+  </div>
+  <div class="mini">
+    <h4>get-shit-done</h4>
+    <div class="m-by">by TÂCHES</div>
+    <p>Meta-prompting + spec-driven development system that keeps long builds on rails.</p>
+    <a href="https://github.com/gsd-build/get-shit-done">github.com/gsd-build/get-shit-done</a>
+  </div>
+  <div class="mini">
+    <h4>Skill_Seekers</h4>
+    <div class="m-by">by yusufkaraaslan</div>
+    <p>Converts any documentation site into a ready-to-use skill — feed it docs, get a SKILL.md.</p>
+    <a href="https://github.com/yusufkaraaslan/Skill_Seekers">github.com/yusufkaraaslan/Skill_Seekers</a>
+  </div>
+</div>
+
+<!-- ============ SECTION 8 ============ -->
+<div class="page-break"></div>
+<div class="section-wrap">
+  <div class="section-num">SECTION 08</div>
+  <h2 class="section">Where to Find More — Discovery Hubs</h2>
+  <p class="section-intro">This guide is a curated starting line, not the whole field. When you want to go deeper, these are the best-maintained directories the community trusts. Bookmark them.</p>
+</div>
+
+<table class="hub">
+  <thead><tr><th style="width:34%;">Hub</th><th style="width:40%;">What's there</th><th style="width:26%;">Link</th></tr></thead>
+  <tbody>
+    <tr><td class="t-name">anthropics/skills</td><td>The official source. Reference implementations + production document skills. 146k★.</td><td><a href="https://github.com/anthropics/skills">github.com/anthropics/skills</a></td></tr>
+    <tr><td class="t-name">VoltAgent/awesome-agent-skills</td><td>1000+ skills from official dev teams (Anthropic, Vercel, Stripe, Cloudflare, Figma…) and community.</td><td><a href="https://github.com/VoltAgent/awesome-agent-skills">github.com/VoltAgent/awesome-agent-skills</a></td></tr>
+    <tr><td class="t-name">travisvn/awesome-claude-skills</td><td>Long-running, well-curated list of the best Claude skills and tools. ~8.7k★.</td><td><a href="https://github.com/travisvn/awesome-claude-skills">github.com/travisvn/awesome-claude-skills</a></td></tr>
+    <tr><td class="t-name">karanb192/awesome-claude-skills</td><td>50+ hand-verified skills, actively maintained, neatly categorized.</td><td><a href="https://github.com/karanb192/awesome-claude-skills">github.com/karanb192/awesome-claude-skills</a></td></tr>
+    <tr><td class="t-name">ComposioHQ/awesome-claude-skills</td><td>1000+ production-ready skills &amp; plugins across many coding agents.</td><td><a href="https://github.com/ComposioHQ/awesome-claude-skills">github.com/ComposioHQ/awesome-claude-skills</a></td></tr>
+    <tr><td class="t-name">officialskills.sh</td><td>Browsable directory of <i>official</i> vendor skills, install-ready.</td><td><a href="https://officialskills.sh">officialskills.sh</a></td></tr>
+    <tr><td class="t-name">hesreallyhim/awesome-claude-code</td><td>Broader Claude Code list: skills, hooks, slash-commands, agents, plugins.</td><td><a href="https://github.com/hesreallyhim/awesome-claude-code">github.com/hesreallyhim/awesome-claude-code</a></td></tr>
+  </tbody>
+</table>
+
+<div class="endnote">
+  <h3>Build faster. Ship smarter. Give credit.</h3>
+  <p>Every skill in this playbook was made by someone who shared it freely with the community — the links and names are here so you can star their repos, follow their work, and say thanks. That's the whole game: stand on great work, build something greater, pass it on.</p>
+  <p>Now go install three of these and feel the difference today.</p>
+  <div class="sign">— Marston Teodoro · Marston AI</div>
+</div>
+
+<p style="font-size:7.5pt; color:#9aa0b5; margin-top:5mm;">
+Curated June 2026. Skills, star counts and links reflect public sources at time of writing and may change — always check each repo before installing.
+All trademarks and skills belong to their respective creators; Marston AI claims no ownership, only curation and gratitude.
+</p>
+
+</body>
+</html>
