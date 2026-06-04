@@ -1,10 +1,10 @@
-# The Claude Skills Playbook — by Marston AI
+# The Claude Skills Playbook — by Marcin AI
 
-**The proven, done-for-you Claude Skills the best builders are actually using.** Hand-picked from GitHub, X and the community. Curated by **Marston Teodoro** · Marston AI · June 2026.
+**The proven, done-for-you Claude Skills the best builders are actually using.** Hand-picked from GitHub, X and the community. Curated by **Marcin Teodoru** · Marcin AI · June 2026.
 
 > A **Claude Skill** is a small folder (a `SKILL.md` plus optional scripts/resources) that Claude loads *on demand* to become an instant expert at a job. Install once, and Claude just knows. This is a stash of the **best existing skills** — not a how-to-build-them doc — with full credit to their creators.
 
-**📄 The shareable PDF:** [`Marston-AI-Claude-Skills-Playbook.pdf`](./Marston-AI-Claude-Skills-Playbook.pdf)
+**📄 The shareable PDF:** [`Marcin-AI-Claude-Skills-Playbook.pdf`](./Marcin-AI-Claude-Skills-Playbook.pdf)
 
 ### How to install any skill
 1. Grab the skill folder from its repo (links below).
@@ -94,6 +94,6 @@
 ---
 
 *Every skill here was shared freely by its creator — star their repos and say thanks. Build faster. Ship smarter. Give credit.*
-**— Marston Teodoro · Marston AI**
+**— Marcin Teodoru · Marcin AI**
 
-<sub>Curated June 2026. Star counts/links reflect public sources at time of writing and may change — check each repo before installing. All skills belong to their respective creators; Marston AI claims only curation and gratitude.</sub>
+<sub>Curated June 2026. Star counts/links reflect public sources at time of writing and may change — check each repo before installing. All skills belong to their respective creators; Marcin AI claims only curation and gratitude.</sub>
