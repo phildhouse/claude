@@ -4,7 +4,11 @@
 
 > A **Claude Skill** is a small folder (a `SKILL.md` plus optional scripts/resources) that Claude loads *on demand* to become an instant expert at a job. Install once, and Claude just knows. This is a stash of the **best existing skills** — not a how-to-build-them doc — with full credit to their creators.
 
-**📄 The shareable PDF:** [`Marcin-AI-Claude-Skills-Playbook.pdf`](./Marcin-AI-Claude-Skills-Playbook.pdf) — editorial design in Claude's clay/terracotta theme (serif body, Contents page, install commands, running headers).
+### 📦 Deliverables
+- **⭐ Social carousel (primary):** [`Marcin-AI-Claude-Skills-Carousel.pdf`](./Marcin-AI-Claude-Skills-Carousel.pdf) — 16 bold, dark, square slides built to be screenshotted and shared on X / TikTok / IG. Big type, one hook per skill, creator @handles, one-line installs.
+- **🖼️ Ready-to-post slides:** [`slides/`](./slides) — all 16 slides exported as **1080×1080 PNGs** for an Instagram/X carousel.
+- **📄 Editorial PDF (alt / print):** [`Marcin-AI-Claude-Skills-Playbook.pdf`](./Marcin-AI-Claude-Skills-Playbook.pdf) — long-form version in Claude's clay/terracotta theme.
+- **🛠️ Source:** `skills-carousel.html`, `skills-guide.html`, `fonts/`.
 
 ### How to install any skill
 1. Grab the skill folder from its repo (links below).

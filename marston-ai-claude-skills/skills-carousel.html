@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Claude Skills — Marcin AI Carousel</title>
+<style>
+  @font-face { font-family:'Anton'; src:url('fonts/Anton.ttf'); font-weight:400; }
+  @font-face { font-family:'Space Grotesk'; src:url('fonts/SpaceGrotesk.ttf'); font-weight:300 700; }
+  @font-face { font-family:'Inter'; src:url('fonts/Inter.ttf'); font-weight:100 900; }
+  @font-face { font-family:'JetBrains Mono'; src:url('fonts/JetBrainsMono.ttf'); font-weight:100 800; }
+
+  /* palette: ink #0B0B0D · panel #16161A · white #F5F5F2 · lime #C6FF3A · coral #FF5A3C · muted #8A8A93 */
+  @page { size: 200mm 200mm; margin: 0; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  html { -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  body { font-family:'Inter',sans-serif; counter-reset:slide; }
+
+  .slide {
+    position:relative; width:200mm; height:200mm; overflow:hidden;
+    background:#0B0B0D; color:#F5F5F2; padding:17mm 16mm 27mm;
+    page-break-after:always; counter-increment:slide; display:flex; flex-direction:column;
+  }
+  .slide:last-child { page-break-after:auto; }
+  .slide.lime { background:#C6FF3A; color:#0B0B0D; }
+  .slide.coral{ background:#FF5A3C; color:#0B0B0D; }
+
+  /* footer brand bar */
+  .foot { position:absolute; left:16mm; right:16mm; bottom:11mm; display:flex; justify-content:space-between;
+    align-items:center; font-family:'Space Grotesk'; font-size:8.5pt; font-weight:600; letter-spacing:0.14em;
+    text-transform:uppercase; }
+  .foot .brand { color:#C6FF3A; }
+  .slide.lime .foot .brand, .slide.coral .foot .brand { color:#0B0B0D; }
+  .foot .brand b { color:#F5F5F2; }
+  .slide.lime .foot .brand b, .slide.coral .foot .brand b { color:#0B0B0D; }
+  .foot .pg { color:#8A8A93; }
+  .slide.lime .foot .pg, .slide.coral .foot .pg { color:#0B0B0D; opacity:.65; }
+  .pg::after { content: counter(slide, decimal-leading-zero) " / 16"; }
+  .foot-rule { position:absolute; left:16mm; right:16mm; bottom:17mm; height:1.4pt; background:#222; }
+  .slide.lime .foot-rule, .slide.coral .foot-rule { background:rgba(0,0,0,.25); }
+
+  /* kickers / labels */
+  .kick { font-family:'Space Grotesk'; font-weight:700; text-transform:uppercase; letter-spacing:0.3em; font-size:10pt; color:#C6FF3A; }
+  .slide.lime .kick, .slide.coral .kick { color:#0B0B0D; }
+  .kick.coral { color:#FF5A3C; }
+
+  /* display type */
+  .anton { font-family:'Anton'; font-weight:400; text-transform:uppercase; letter-spacing:0.005em; line-height:0.92; }
+  .lime-t { color:#C6FF3A; } .coral-t { color:#FF5A3C; }
+  .strike-bg { color:#0B0B0D; }
+
+  /* ---------- COVER ---------- */
+  .cover-hook { font-family:'Space Grotesk'; font-weight:500; font-size:14pt; color:#8A8A93; margin-top:11mm; }
+  .cover-big { font-family:'Anton'; text-transform:uppercase; font-size:50pt; line-height:0.92; margin-top:5mm; }
+  .cover-sub { font-family:'Space Grotesk'; font-weight:500; font-size:14pt; color:#F5F5F2; margin-top:9mm; max-width:150mm; line-height:1.32; }
+  .cover-sub b { color:#C6FF3A; }
+  .save-pill { align-self:flex-start; margin-top:9mm; background:#C6FF3A; color:#0B0B0D; font-family:'Space Grotesk';
+    font-weight:700; text-transform:uppercase; letter-spacing:0.12em; font-size:11pt; padding:7px 18px; border-radius:999px; }
+
+  /* generic slide heading */
+  .s-kick { margin-bottom:5mm; }
+  .s-title { font-family:'Anton'; text-transform:uppercase; font-size:46pt; line-height:0.9; margin-bottom:3mm; }
+  .s-note { font-family:'Space Grotesk'; font-weight:500; font-size:12pt; color:#8A8A93; margin-bottom:7mm; }
+  .slide.lime .s-note, .slide.coral .s-note { color:rgba(0,0,0,.6); }
+
+  /* ---------- HERO SKILL ---------- */
+  .hero-idx { font-family:'Anton'; font-size:30pt; color:#C6FF3A; line-height:1; }
+  .hero-name { font-family:'Anton'; text-transform:uppercase; font-size:62pt; line-height:0.9; margin:2mm 0 6mm; }
+  .hero-hook { font-family:'Space Grotesk'; font-weight:600; font-size:23pt; line-height:1.18; max-width:165mm; }
+  .hero-hook .hl { color:#C6FF3A; }
+  .chips { display:flex; gap:6mm; flex-wrap:wrap; margin-top:8mm; align-items:center; }
+  .chip { font-family:'Space Grotesk'; font-weight:700; font-size:11pt; letter-spacing:0.04em; text-transform:uppercase;
+    border:1.6pt solid #C6FF3A; color:#C6FF3A; padding:5px 13px; border-radius:999px; }
+  .by { font-family:'Space Grotesk'; font-weight:600; font-size:12.5pt; color:#F5F5F2; }
+  .by span { color:#8A8A93; }
+  .install { font-family:'JetBrains Mono'; font-size:10.5pt; color:#C6FF3A; background:#141417;
+    border:1pt solid #26262b; border-radius:9px; padding:4mm 5mm; margin-top:auto; }
+  .install .c { color:#6f6f78; }
+  .secondary { margin-top:6mm; font-family:'Space Grotesk'; font-weight:500; font-size:12pt; color:#8A8A93; }
+  .secondary b { color:#FF5A3C; font-weight:700; }
+
+  /* ---------- STARTER / LIST ROWS ---------- */
+  .rowlist { margin-top:2mm; }
+  .row { display:flex; align-items:baseline; gap:5mm; padding:4.2mm 0; border-bottom:1.2pt solid rgba(255,255,255,.10); }
+  .slide.lime .row { border-bottom:1.2pt solid rgba(0,0,0,.16); }
+  .row:last-of-type { border-bottom:none; }
+  .row .rn { font-family:'Anton'; font-size:22pt; color:#C6FF3A; width:13mm; flex:0 0 auto; }
+  .slide.lime .row .rn, .slide.coral .row .rn { color:#0B0B0D; }
+  .row .rname { font-family:'Space Grotesk'; font-weight:700; font-size:14.5pt; flex:0 0 46mm; }
+  .row .rhook { font-family:'Space Grotesk'; font-weight:500; font-size:12pt; color:#B9B9C0; flex:1 1 auto; line-height:1.25; padding-right:3mm; }
+  .slide.lime .row .rhook, .slide.coral .row .rhook { color:rgba(0,0,0,.62); }
+  .row .rby { font-family:'JetBrains Mono'; font-size:8pt; color:#6f6f78; flex:0 0 26mm; text-align:right; align-self:center; }
+  .slide.lime .row .rby, .slide.coral .row .rby { color:rgba(0,0,0,.5); }
+
+  .install-foot { font-family:'JetBrains Mono'; font-size:9.5pt; color:#8A8A93; margin-top:6mm; }
+  .install-foot b { color:#C6FF3A; }
+  .slide.lime .install-foot b { color:#0B0B0D; }
+
+  /* discovery chips */
+  .hubs { display:flex; flex-direction:column; gap:3.5mm; margin-top:3mm; }
+  .hub { display:flex; justify-content:space-between; align-items:baseline; border-bottom:1.2pt solid rgba(255,255,255,.1); padding-bottom:3mm; }
+  .hub .hn { font-family:'Space Grotesk'; font-weight:700; font-size:14pt; }
+  .hub .hl { font-family:'JetBrains Mono'; font-size:9.5pt; color:#C6FF3A; }
+
+  /* outro */
+  .outro-big { font-family:'Anton'; text-transform:uppercase; font-size:60pt; line-height:0.88; }
+  .outro-sub { font-family:'Space Grotesk'; font-weight:600; font-size:16pt; margin-top:8mm; line-height:1.35; }
+  .handles { font-family:'JetBrains Mono'; font-size:12pt; font-weight:600; margin-top:7mm; }
+  .creditline { font-family:'Space Grotesk'; font-weight:500; font-size:11pt; margin-top:auto; }
+</style>
+</head>
+<body>
+
+<!-- 01 COVER -->
+<div class="slide">
+  <div class="kick">Marcin AI · AI Builders</div>
+  <div class="cover-hook">I read 1,500+ Claude skills so you don't have to.</div>
+  <div class="cover-big">Most claude<br>skills are <span class="lime-t">trash.</span><br>these 40<br>are <span class="lime-t">elite.</span></div>
+  <div class="cover-sub">The exact skills top builders install to make Claude <b>10× faster</b> — with links + install commands.</div>
+  <span class="save-pill">↓ Save this</span>
+  <div class="foot-rule"></div>
+  <div class="foot"><span class="brand">◆ <b>MARCIN AI</b></span><span class="pg"></span></div>
+</div>
+
+<!-- 02 WHAT + INSTALL -->
+<div class="slide">
+  <div class="kick">60-second crash course</div>
+  <div class="s-title" style="margin-top:6mm; font-size:52pt;">What even<br>is a <span class="lime-t">skill?</span></div>
+  <div class="hero-hook" style="margin-top:2mm;">A folder that turns Claude into an instant specialist. Install once — it just <span class="hl">knows.</span> Build video, audit security, write production React, cut your token bill.</div>
+  <div style="margin-top:11mm;" class="kick coral">Install in 10 seconds</div>
+  <div class="install" style="margin-top:4mm;"><span class="c"># any public repo, in Claude Code</span><br>npx skills add &lt;org&gt;/&lt;repo&gt;<br><span class="c"># or drag the folder into Claude.ai → Settings → Skills</span></div>
+  <div class="secondary" style="margin-top:6mm;">Golden rule → <b>install 5, not 50.</b> Each one adds overhead. Start with what you'll use this week.</div>
+  <div class="foot-rule"></div>
+  <div class="foot"><span class="brand">◆ <b>MARCIN AI</b></span><span class="pg"></span></div>
+</div>
+
+<!-- 03 STARTER PACK (lime) -->
+<div class="slide lime">
+  <div class="kick">If you only install 5</div>
+  <div class="s-title" style="margin-top:5mm;">The starter<br>pack.</div>
+  <div class="rowlist" style="margin-top:4mm;">
+    <div class="row"><span class="rn">1</span><span class="rname">grill-me</span><span class="rhook">Stops Claude building the wrong thing.</span><span class="rby">@mattpocock</span></div>
+    <div class="row"><span class="rn">2</span><span class="rname">Caveman 🪨</span><span class="rhook">–65% output tokens, zero info lost.</span><span class="rby">@JuliusBrussee</span></div>
+    <div class="row"><span class="rn">3</span><span class="rname">Remotion</span><span class="rhook">Prompt → finished MP4 video.</span><span class="rby">remotion.dev</span></div>
+    <div class="row"><span class="rn">4</span><span class="rname">Superpowers</span><span class="rhook">Gives Claude a senior-eng brain.</span><span class="rby">@obra</span></div>
+    <div class="row"><span class="rn">5</span><span class="rname">Doc Skills</span><span class="rhook">Real .pdf / .xlsx / .docx out.</span><span class="rby">@anthropic</span></div>
+  </div>
+  <div class="install-foot" style="color:rgba(0,0,0,.6);">Full breakdown + links on the next slides →</div>
+  <div class="foot-rule"></div>
+  <div class="foot"><span class="brand">◆ <b>MARCIN AI</b></span><span class="pg"></span></div>
+</div>
+
+<!-- 04 HERO grill-me -->
+<div class="slide">
+  <div class="hero-idx">01</div>
+  <div class="hero-name"><span class="lime-t">grill</span>-me</div>
+  <div class="hero-hook">Claude keeps building the wrong thing. This makes it <span class="hl">interrogate YOU</span> first — 50 questions, then 1 perfect feature.</div>
+  <div class="chips"><span class="chip">★ 74K on GitHub</span><span class="by">by <span>@mattpocock</span></span></div>
+  <div class="install"><span class="c"># Claude Code</span><br>/plugin marketplace add mattpocock/skills · /plugin install grill-me</div>
+  <div class="foot-rule"></div>
+  <div class="foot"><span class="brand">◆ <b>MARCIN AI</b></span><span class="pg"></span></div>
+</div>
+
+<!-- 05 HERO Caveman -->
+<div class="slide">
+  <div class="hero-idx">02</div>
+  <div class="hero-name"><span class="lime-t">cave</span>man 🪨</div>
+  <div class="hero-hook">Same answers. <span class="hl">65% fewer tokens.</span> Claude talks like a caveman, your bill drops like a rock. Code stays byte-perfect.</div>
+  <div class="chips"><span class="chip">#1 on Hacker News</span><span class="by">by <span>@JuliusBrussee</span></span></div>
+  <div class="install">npx skills add JuliusBrussee/caveman</div>
+  <div class="foot-rule"></div>
+  <div class="foot"><span class="brand">◆ <b>MARCIN AI</b></span><span class="pg"></span></div>
+</div>
+
+<!-- 06 HERO Remotion (coral) -->
+<div class="slide">
+  <div class="hero-idx" style="color:#FF5A3C;">03</div>
+  <div class="hero-name"><span class="coral-t">remo</span>tion</div>
+  <div class="hero-hook">Type a sentence → get a finished <span style="color:#FF5A3C;">MP4.</span> Claude edits video now. No editor, no timeline, no cloud render bill.</div>
+  <div class="chips"><span class="chip" style="border-color:#FF5A3C;color:#FF5A3C;">117K installs / week</span><span class="by">by <span>Remotion</span></span></div>
+  <div class="install" style="color:#FF5A3C;">npx skills add remotion-dev/skills <span class="c"># remotion.dev/docs/ai/skills</span></div>
+  <div class="foot-rule"></div>
+  <div class="foot"><span class="brand">◆ <b>MARCIN AI</b></span><span class="pg"></span></div>
+</div>
+
+<!-- 07 HERO Superpowers -->
+<div class="slide">
+  <div class="hero-idx">04</div>
+  <div class="hero-name"><span class="lime-t">super</span>powers</div>
+  <div class="hero-hook">Give Claude a <span class="hl">senior engineer's brain</span> — TDD, real debugging, planning, subagents. 20+ battle-tested skills in one install.</div>
+  <div class="chips"><span class="chip">★ 217K on GitHub</span><span class="by">by <span>@obra (Jesse Vincent)</span></span></div>
+  <div class="install">/plugin marketplace add obra/superpowers-marketplace · /plugin install superpowers</div>
+  <div class="foot-rule"></div>
+  <div class="foot"><span class="brand">◆ <b>MARCIN AI</b></span><span class="pg"></span></div>
+</div>
+
+<!-- 08 HERO Karpathy + Handoff -->
+<div class="slide">
+  <div class="hero-idx">05</div>
+  <div class="hero-name"><span class="lime-t">karpathy</span><br>mode</div>
+  <div class="hero-hook">The 4 rules that stop AI from over-engineering: <span class="hl">think, simplify, cut surgically, stay on goal.</span></div>
+  <div class="chips"><span class="chip">★ 144K</span><span class="by">by <span>Forrest Chang · from A. Karpathy</span></span></div>
+  <div class="secondary">Also steal → <b>HANDOFF</b> (@mattpocock): compress a dead session into a brief, start fresh, lose nothing.</div>
+  <div class="install" style="margin-top:6mm;">npx skills add multica-ai/andrej-karpathy-skills</div>
+  <div class="foot-rule"></div>
+  <div class="foot"><span class="brand">◆ <b>MARCIN AI</b></span><span class="pg"></span></div>
+</div>
+
+<!-- 09 LIST Anthropic Official -->
+<div class="slide">
+  <div class="kick s-kick">The official arsenal · free</div>
+  <div class="s-title">Built by<br><span class="lime-t">Anthropic.</span></div>
+  <div class="rowlist">
+    <div class="row"><span class="rname">Doc Skills</span><span class="rhook">Real .pdf / .docx / .xlsx / .pptx — not text about them.</span></div>
+    <div class="row"><span class="rname">mcp-builder</span><span class="rhook">Wire any API into Claude as native tools.</span></div>
+    <div class="row"><span class="rname">webapp-testing</span><span class="rhook">Claude clicks through your app in a real browser.</span></div>
+    <div class="row"><span class="rname">frontend-design</span><span class="rhook">Kills generic "AI slop" UI. Designs that look intentional.</span></div>
+    <div class="row"><span class="rname">skill-creator</span><span class="rhook">Build your own skill, guided step by step.</span></div>
+  </div>
+  <div class="install-foot"><b>npx skills add anthropics/skills --skill &lt;name&gt;</b> · free on Claude.ai Pro+</div>
+  <div class="foot-rule"></div>
+  <div class="foot"><span class="brand">◆ <b>MARCIN AI</b></span><span class="pg"></span></div>
+</div>
+
+<!-- 10 LIST Production web -->
+<div class="slide">
+  <div class="kick s-kick">Ship it like the pros · official vendor skills</div>
+  <div class="s-title">Production<br><span class="lime-t">web.</span></div>
+  <div class="rowlist">
+    <div class="row"><span class="rname">Vercel</span><span class="rhook">100+ React/Next perf + accessibility rules baked in.</span></div>
+    <div class="row"><span class="rname">Stripe</span><span class="rhook">Payments done right: webhooks, idempotency, edge cases.</span></div>
+    <div class="row"><span class="rname">Cloudflare</span><span class="rhook">Workers + Durable Objects, production-grade.</span></div>
+    <div class="row"><span class="rname">Sentry</span><span class="rhook">Find &amp; fix prod bugs with full trace context.</span></div>
+    <div class="row"><span class="rname">Expo · HF</span><span class="rhook">Ship mobile apps · train models + Gradio demos.</span></div>
+  </div>
+  <div class="install-foot"><b>officialskills.sh</b> · also Netlify, and more</div>
+  <div class="foot-rule"></div>
+  <div class="foot"><span class="brand">◆ <b>MARCIN AI</b></span><span class="pg"></span></div>
+</div>
+
+<!-- 11 LIST Creative -->
+<div class="slide">
+  <div class="kick s-kick">Make stuff that pops</div>
+  <div class="s-title"><span class="lime-t">Design</span> &amp;<br>creative.</div>
+  <div class="rowlist">
+    <div class="row"><span class="rname">Figma</span><span class="rhook">Figma frame → faithful production code.</span><span class="rby">@figma</span></div>
+    <div class="row"><span class="rname">frontend-slides</span><span class="rhook">Animated HTML decks from a prompt.</span><span class="rby">@zarazhangrui</span></div>
+    <div class="row"><span class="rname">web-asset-gen</span><span class="rhook">Favicons, icons, OG images — every size.</span><span class="rby">@alonw0</span></div>
+    <div class="row"><span class="rname">claude-d3js</span><span class="rhook">Data viz that actually looks good.</span><span class="rby">@chrisvoncsefalvay</span></div>
+    <div class="row"><span class="rname">shadcn/ui</span><span class="rhook">Real component context, right patterns.</span><span class="rby">@shadcn</span></div>
+  </div>
+  <div class="foot-rule"></div>
+  <div class="foot"><span class="brand">◆ <b>MARCIN AI</b></span><span class="pg"></span></div>
+</div>
+
+<!-- 12 LIST Security -->
+<div class="slide">
+  <div class="kick s-kick coral">Red-team your own code</div>
+  <div class="s-title"><span class="coral-t">Security</span> &amp;<br>hardening.</div>
+  <div class="rowlist">
+    <div class="row"><span class="rname">Trail of Bits</span><span class="rhook">21+ pro audit skills — CodeQL, Semgrep, secure smart contracts.</span><span class="rby">trailofbits</span></div>
+    <div class="row"><span class="rname">ffuf fuzzing</span><span class="rhook">Web recon &amp; fuzzing for authorized pentests.</span><span class="rby">@jthack</span></div>
+  </div>
+  <div class="s-note" style="margin-top:9mm;">From people who break software for a living. Catch the bug before an attacker does.</div>
+  <div class="foot-rule"></div>
+  <div class="foot"><span class="brand">◆ <b>MARCIN AI</b></span><span class="pg"></span></div>
+</div>
+
+<!-- 13 LIST Marketing -->
+<div class="slide">
+  <div class="kick s-kick">Be your own growth team</div>
+  <div class="s-title"><span class="lime-t">Marketing</span><br>&amp; growth.</div>
+  <div class="rowlist">
+    <div class="row"><span class="rname">Corey Haines</span><span class="rhook">50+ skills: CRO, SEO, copywriting, paid ads, email, retention.</span><span class="rby">@coreyhaines31</span></div>
+    <div class="row"><span class="rname">Kim Barrett</span><span class="rhook">Direct-response ad copy that actually sells.</span><span class="rby">@realkimbarrett</span></div>
+  </div>
+  <div class="s-note" style="margin-top:9mm;">Building it is half the job. These make Claude sell it too.</div>
+  <div class="foot-rule"></div>
+  <div class="foot"><span class="brand">◆ <b>MARCIN AI</b></span><span class="pg"></span></div>
+</div>
+
+<!-- 14 LIST Power tools -->
+<div class="slide">
+  <div class="kick s-kick">Power tools</div>
+  <div class="s-title">Data, mobile<br>&amp; <span class="lime-t">automation.</span></div>
+  <div class="rowlist">
+    <div class="row"><span class="rname">scientific-skills</span><span class="rhook">Research libraries + database access.</span><span class="rby">@K-Dense-AI</span></div>
+    <div class="row"><span class="rname">ios-simulator</span><span class="rhook">Builds &amp; tests iOS apps for you.</span><span class="rby">@conorluddy</span></div>
+    <div class="row"><span class="rname">playwright</span><span class="rhook">Browser automation: scrape, E2E, UI checks.</span><span class="rby">@lackeyjb</span></div>
+    <div class="row"><span class="rname">Firecrawl</span><span class="rhook">Clean web data built for agents.</span><span class="rby">firecrawl</span></div>
+    <div class="row"><span class="rname">Skill_Seekers</span><span class="rhook">Turn any docs site into a skill.</span><span class="rby">@yusufkaraaslan</span></div>
+  </div>
+  <div class="foot-rule"></div>
+  <div class="foot"><span class="brand">◆ <b>MARCIN AI</b></span><span class="pg"></span></div>
+</div>
+
+<!-- 15 DISCOVERY -->
+<div class="slide">
+  <div class="kick s-kick">Want 1,500+ more?</div>
+  <div class="s-title">The <span class="lime-t">vault.</span></div>
+  <div class="s-note">Bookmark these. New skills drop daily.</div>
+  <div class="hubs">
+    <div class="hub"><span class="hn">anthropics/skills</span><span class="hl">github.com/anthropics/skills</span></div>
+    <div class="hub"><span class="hn">VoltAgent · awesome-agent-skills</span><span class="hl">1,000+ skills</span></div>
+    <div class="hub"><span class="hn">travisvn · awesome-claude-skills</span><span class="hl">the best-of list</span></div>
+    <div class="hub"><span class="hn">officialskills.sh</span><span class="hl">every official vendor skill</span></div>
+  </div>
+  <div class="foot-rule"></div>
+  <div class="foot"><span class="brand">◆ <b>MARCIN AI</b></span><span class="pg"></span></div>
+</div>
+
+<!-- 16 OUTRO (coral) -->
+<div class="slide coral">
+  <div class="kick">Marcin AI · Founder, AI Builders</div>
+  <div class="outro-big" style="margin-top:8mm;">Save it.<br>Send it to<br>a builder.</div>
+  <div class="outro-sub">You don't need to code it from scratch.<br>You need to know what already exists.</div>
+  <div class="handles">@marcinteodoru · aibuilders.vip</div>
+  <div class="creditline">Every skill credited to its creator. Go star their repos. 🚀<br><b>— Marcin Teodoru</b></div>
+  <div class="foot-rule"></div>
+  <div class="foot"><span class="brand">◆ <b>MARCIN AI</b> · NOCODE AI ARMY</span><span class="pg"></span></div>
+</div>
+
+</body>
+</html>
